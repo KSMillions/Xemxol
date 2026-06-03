@@ -50,11 +50,47 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
     
-    heroRight.addEventListener('mouseleave', () => {
+      heroRight.addEventListener('mouseleave', () => {
       card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
       badges.forEach(badge => {
         badge.style.transform = 'translate3d(0, 0, 0)';
       });
     });
   }
+
+  // Mobile Nav Hamburger Toggle
+  const menuBtn = document.querySelector('.mobile-menu-btn');
+  const closeBtn = document.querySelector('.mobile-menu-close');
+  const overlay = document.querySelector('.mobile-nav-overlay');
+  const mobileLinks = document.querySelectorAll('.mobile-nav-links a');
+
+  if (menuBtn && overlay) {
+    menuBtn.addEventListener('click', () => {
+      overlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    });
+  }
+
+  const closeMenu = () => {
+    if (overlay) {
+      overlay.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+  };
+
+  if (closeBtn) {
+    closeBtn.addEventListener('click', closeMenu);
+  }
+
+  if (overlay) {
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) {
+        closeMenu();
+      }
+    });
+  }
+
+  mobileLinks.forEach(link => {
+    link.addEventListener('click', closeMenu);
+  });
 });
