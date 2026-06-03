@@ -25,4 +25,36 @@ document.addEventListener('DOMContentLoaded', () => {
     el.style.opacity = '0'; // Initial state before animation
     observer.observe(el);
   });
+
+  // Interactive 3D tilt effect for hero image card
+  const heroRight = document.querySelector('.hero-right');
+  if (heroRight) {
+    const card = heroRight.querySelector('.hero-image-card');
+    const badges = heroRight.querySelectorAll('.floating-badge');
+    
+    heroRight.addEventListener('mousemove', (e) => {
+      const rect = heroRight.getBoundingClientRect();
+      const x = e.clientX - rect.left - rect.width / 2;
+      const y = e.clientY - rect.top - rect.height / 2;
+      
+      const rotX = -(y / (rect.height / 2)) * 10;
+      const rotY = (x / (rect.width / 2)) * 10;
+      
+      card.style.transform = `perspective(1000px) rotateX(${rotX}deg) rotateY(${rotY}deg) scale3d(1.02, 1.02, 1.02)`;
+      
+      badges.forEach((badge, idx) => {
+        const factor = (idx + 1) * 12;
+        const transX = (x / (rect.width / 2)) * factor;
+        const transY = (y / (rect.height / 2)) * factor;
+        badge.style.transform = `translate3d(${transX}px, ${transY}px, 20px) scale(1.05)`;
+      });
+    });
+    
+    heroRight.addEventListener('mouseleave', () => {
+      card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+      badges.forEach(badge => {
+        badge.style.transform = 'translate3d(0, 0, 0)';
+      });
+    });
+  }
 });
