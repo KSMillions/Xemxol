@@ -26,10 +26,11 @@ document.addEventListener('DOMContentLoaded', () => {
     observer.observe(el);
   });
 
-  // Interactive 3D tilt effect for hero image card
+  // Interactive 3D tilt effect for hero image card and badges
   const heroRight = document.querySelector('.hero-right');
   if (heroRight) {
     const card = heroRight.querySelector('.hero-image-card');
+    const container = heroRight.querySelector('.hero-badges-container');
     const badges = heroRight.querySelectorAll('.floating-badge');
     
     heroRight.addEventListener('mousemove', (e) => {
@@ -40,7 +41,12 @@ document.addEventListener('DOMContentLoaded', () => {
       const rotX = -(y / (rect.height / 2)) * 10;
       const rotY = (x / (rect.width / 2)) * 10;
       
-      card.style.transform = `perspective(1000px) rotateX(${rotX}deg) rotateY(${rotY}deg) scale3d(1.02, 1.02, 1.02)`;
+      if (card) {
+        card.style.transform = `perspective(1000px) rotateX(${rotX}deg) rotateY(${rotY}deg) scale3d(1.02, 1.02, 1.02)`;
+      }
+      if (container) {
+        container.style.transform = `perspective(1000px) rotateX(${rotX * 0.5}deg) rotateY(${rotY * 0.5}deg)`;
+      }
       
       badges.forEach((badge, idx) => {
         const factor = (idx + 1) * 12;
@@ -50,8 +56,13 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
     
-      heroRight.addEventListener('mouseleave', () => {
-      card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+    heroRight.addEventListener('mouseleave', () => {
+      if (card) {
+        card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+      }
+      if (container) {
+        container.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
+      }
       badges.forEach(badge => {
         badge.style.transform = 'translate3d(0, 0, 0)';
       });
