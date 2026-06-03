@@ -677,14 +677,10 @@ section { padding: 120px 60px; }
   display: flex;
   align-items: center;
   justify-content: center;
-  filter: grayscale(100%);
-  opacity: 0.7;
   cursor: pointer;
 }
 
 .client-logo:hover {
-  filter: grayscale(0%);
-  opacity: 1;
   transform: translateY(-8px) scale(1.05);
   box-shadow: 0 20px 40px rgba(174, 160, 135, 0.18);
   border-color: var(--accent-primary);
