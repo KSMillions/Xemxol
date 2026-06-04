@@ -1,13 +1,46 @@
 function handleSubmit(e) {
   e.preventDefault();
+
+  const form = e.target;
+  const submitBtn = document.getElementById('submit-btn');
   const successMsg = document.getElementById('form-success');
-  if (successMsg) {
-    successMsg.style.display = 'block';
-    setTimeout(() => {
-      successMsg.style.display = 'none';
-    }, 5000);
-  }
-  e.target.reset();
+  const errorMsg = document.getElementById('form-error');
+
+  // Hide any previous messages
+  if (successMsg) successMsg.style.display = 'none';
+  if (errorMsg) errorMsg.style.display = 'none';
+
+  const name        = form.name.value.trim();
+  const email       = form.email.value.trim();
+  const organisation = form.organisation.value.trim();
+  const service     = form.service.value.trim();
+  const message     = form.message.value.trim();
+
+  const subject = encodeURIComponent(
+    `ZEMXOL Enquiry${service ? ` — ${service}` : ''}`
+  );
+
+  const body = encodeURIComponent(
+    `Name: ${name}\n` +
+    `Email: ${email}\n` +
+    (organisation ? `Organisation: ${organisation}\n` : '') +
+    (service ? `Service Required: ${service}\n` : '') +
+    `\nMessage:\n${message}`
+  );
+
+  const mailtoLink = `mailto:zethulemsiza@gmail.com?subject=${subject}&body=${body}`;
+
+  // Open the mail client
+  window.location.href = mailtoLink;
+
+  // Show success message and reset
+  if (successMsg) successMsg.style.display = 'block';
+  form.reset();
+
+  // Hide success after 8 seconds
+  setTimeout(() => {
+    if (successMsg) successMsg.style.display = 'none';
+  }, 8000);
 }
 
 // Intersection Observer for fade-in animations on scroll
