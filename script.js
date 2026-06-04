@@ -1,4 +1,4 @@
-function handleSubmit(e) {
+async function handleSubmit(e) {
   e.preventDefault();
 
   const form = e.target;
@@ -6,41 +6,54 @@ function handleSubmit(e) {
   const successMsg = document.getElementById('form-success');
   const errorMsg = document.getElementById('form-error');
 
-  // Hide any previous messages
+  // Hide previous messages
   if (successMsg) successMsg.style.display = 'none';
   if (errorMsg) errorMsg.style.display = 'none';
 
-  const name        = form.name.value.trim();
-  const email       = form.email.value.trim();
-  const organisation = form.organisation.value.trim();
-  const service     = form.service.value.trim();
-  const message     = form.message.value.trim();
+  // Loading state
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending…';
+  }
 
-  const subject = encodeURIComponent(
-    `ZEMXOL Enquiry${service ? ` — ${service}` : ''}`
-  );
+  const data = {
+    name: form.name.value.trim(),
+    email: form.email.value.trim(),
+    organisation: form.organisation.value.trim(),
+    service: form.service.value.trim(),
+    message: form.message.value.trim(),
+    _subject: `New Enquiry — ZEMXOL Website`,
+    _captcha: 'false',
+    _template: 'table',
+  };
 
-  const body = encodeURIComponent(
-    `Name: ${name}\n` +
-    `Email: ${email}\n` +
-    (organisation ? `Organisation: ${organisation}\n` : '') +
-    (service ? `Service Required: ${service}\n` : '') +
-    `\nMessage:\n${message}`
-  );
+  try {
+    const res = await fetch('https://formsubmit.co/ajax/zethulemsiza@gmail.com', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
 
-  const mailtoLink = `mailto:zethulemsiza@gmail.com?subject=${subject}&body=${body}`;
+    const json = await res.json();
 
-  // Open the mail client
-  window.location.href = mailtoLink;
-
-  // Show success message and reset
-  if (successMsg) successMsg.style.display = 'block';
-  form.reset();
-
-  // Hide success after 8 seconds
-  setTimeout(() => {
-    if (successMsg) successMsg.style.display = 'none';
-  }, 8000);
+    if (res.ok && json.success === 'true') {
+      if (successMsg) successMsg.style.display = 'block';
+      form.reset();
+      setTimeout(() => { if (successMsg) successMsg.style.display = 'none'; }, 8000);
+    } else {
+      throw new Error('Submission failed');
+    }
+  } catch (err) {
+    if (errorMsg) errorMsg.style.display = 'block';
+  } finally {
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Send Enquiry';
+    }
+  }
 }
 
 // Intersection Observer for fade-in animations on scroll
