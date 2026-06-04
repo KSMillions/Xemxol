@@ -360,12 +360,17 @@
         </div>
       </div>
       
-      <form class="contact-form" id="contact-form" onsubmit="handleSubmit(event)">
+      <form
+        class="contact-form"
+        id="contact-form"
+        action="https://formsubmit.co/zethulemsiza@gmail.com"
+        method="POST"
+      >
         <!-- FormSubmit.co config -->
         <input type="hidden" name="_subject" value="New Enquiry — ZEMXOL Website">
         <input type="hidden" name="_captcha" value="false">
         <input type="hidden" name="_template" value="table">
-        <input type="hidden" name="_next" value="about:blank">
+        <input type="hidden" name="_next" value="https://ksmillions.github.io/Xemxol/index.html?sent=1">
 
         <div class="form-row">
           <div class="form-group">
@@ -404,9 +409,6 @@
         <button type="submit" class="btn-submit" id="submit-btn">Send Enquiry</button>
         <div id="form-success" style="display:none; color:var(--accent-primary); font-size:14px; margin-top:8px;">
           ✅ Thank you! Your enquiry has been sent. We'll be in touch shortly.
-        </div>
-        <div id="form-error" style="display:none; color:#ff6b6b; font-size:14px; margin-top:8px;">
-          ❌ Something went wrong. Please email us directly at <a href="mailto:zethulemsiza@gmail.com" style="color:#ff6b6b;">zethulemsiza@gmail.com</a>
         </div>
       </form>
     </div>

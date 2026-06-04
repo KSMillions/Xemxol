@@ -1,63 +1,21 @@
-async function handleSubmit(e) {
-  e.preventDefault();
-
-  const form = e.target;
-  const submitBtn = document.getElementById('submit-btn');
-  const successMsg = document.getElementById('form-success');
-  const errorMsg = document.getElementById('form-error');
-
-  // Hide previous messages
-  if (successMsg) successMsg.style.display = 'none';
-  if (errorMsg) errorMsg.style.display = 'none';
-
-  // Loading state
-  if (submitBtn) {
-    submitBtn.disabled = true;
-    submitBtn.textContent = 'Sending…';
-  }
-
-  const data = {
-    name: form.name.value.trim(),
-    email: form.email.value.trim(),
-    organisation: form.organisation.value.trim(),
-    service: form.service.value.trim(),
-    message: form.message.value.trim(),
-    _subject: `New Enquiry — ZEMXOL Website`,
-    _captcha: 'false',
-    _template: 'table',
-  };
-
-  try {
-    const res = await fetch('https://formsubmit.co/ajax/zethulemsiza@gmail.com', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      },
-      body: JSON.stringify(data),
-    });
-
-    const json = await res.json();
-
-    if (res.ok && json.success === 'true') {
-      if (successMsg) successMsg.style.display = 'block';
-      form.reset();
-      setTimeout(() => { if (successMsg) successMsg.style.display = 'none'; }, 8000);
-    } else {
-      throw new Error('Submission failed');
+// Show success banner when redirected back after FormSubmit delivery
+function checkFormSent() {
+  if (new URLSearchParams(window.location.search).get('sent') === '1') {
+    const successMsg = document.getElementById('form-success');
+    const contactSection = document.getElementById('contact');
+    if (contactSection) contactSection.scrollIntoView({ behavior: 'smooth' });
+    if (successMsg) {
+      successMsg.style.display = 'block';
+      setTimeout(() => { successMsg.style.display = 'none'; }, 8000);
     }
-  } catch (err) {
-    if (errorMsg) errorMsg.style.display = 'block';
-  } finally {
-    if (submitBtn) {
-      submitBtn.disabled = false;
-      submitBtn.textContent = 'Send Enquiry';
-    }
+    // Clean the URL so refreshing doesn't re-show the banner
+    history.replaceState(null, '', window.location.pathname);
   }
 }
 
 // Intersection Observer for fade-in animations on scroll
 document.addEventListener('DOMContentLoaded', () => {
+  checkFormSent();
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(e => {
       if (e.isIntersecting) {
