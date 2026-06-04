@@ -912,6 +912,39 @@ footer {
   margin-top: 10px;
 }
 
+/* Mobile nav group label (e.g. "Services") */
+.mobile-nav-group-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--accent-primary);
+  padding: 8px 0 4px;
+  border-top: 1px solid var(--border-light);
+  margin-top: 4px;
+}
+
+/* Mobile nav sub-links (indented service items) */
+.mobile-nav-sub {
+  font-size: 17px !important;
+  color: var(--text-secondary) !important;
+  padding-left: 16px !important;
+  position: relative;
+}
+.mobile-nav-sub::before {
+  content: '—';
+  position: absolute;
+  left: 0;
+  color: var(--accent-primary);
+  font-size: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.mobile-nav-sub:hover {
+  color: var(--text-primary) !important;
+}
+
 /* Performance enhancements for smooth scrolling */
 body {
   -webkit-overflow-scrolling: touch;
@@ -1041,6 +1074,12 @@ body {
   transform: translateY(-6px);
   box-shadow: 0 30px 60px rgba(0,0,0,0.12);
   z-index: 2;
+}
+/* Remove lift effect on touch devices to avoid sticky hover state */
+@media (hover: none) {
+  .trio-card:hover { transform: none; box-shadow: none; }
+  .trio-card:active { background: var(--bg-primary); }
+  .trio-card--dark:active { background: #252525; }
 }
 
 .trio-card-inner {
@@ -1271,7 +1310,7 @@ body {
    ============================================= */
 .capability-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(340px, 100%), 1fr));
   gap: 24px;
 }
 
@@ -1335,7 +1374,7 @@ body {
    ============================================= */
 .service-areas-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
   gap: 2px;
   background: var(--border-light);
   border-radius: var(--border-radius-lg);
@@ -1421,7 +1460,7 @@ body {
    ============================================= */
 .supply-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(340px, 100%), 1fr));
   gap: 24px;
 }
 
@@ -1516,7 +1555,7 @@ body {
    ============================================= */
 .why-supply-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
   gap: 24px;
   margin-top: 50px;
 }
@@ -1591,17 +1630,123 @@ body {
    SUB-PAGE MOBILE RESPONSIVE
    ============================================= */
 @media (max-width: 900px) {
+  /* Sub-page hero */
   .sp-hero { padding: 120px 24px 60px; min-height: auto; }
-  .sp-hero-title { font-size: 36px !important; }
+  .sp-hero-title { font-size: 36px !important; letter-spacing: -0.5px; }
   .sp-hero-sub { font-size: 16px; }
+  .sp-hero-tags { gap: 8px; }
+
+  /* Breadcrumb */
+  .sp-breadcrumb { flex-wrap: wrap; gap: 6px; }
+
+  /* Sections */
   .sp-section { padding: 60px 24px; }
+  .sp-section-lead { font-size: 16px; margin-bottom: 40px; }
+  .section-title { font-size: 28px !important; }
+
+  /* Services intro on landing */
+  .services-intro { font-size: 15px; margin-bottom: 36px; }
+
+  /* Grids — single column */
   .capability-grid,
   .supply-grid,
   .why-supply-grid { grid-template-columns: 1fr; }
+
+  /* Capability & supply card padding */
+  .capability-card,
+  .supply-card { padding: 28px 24px; }
+
+  /* Service areas */
   .service-areas-grid { grid-template-columns: 1fr; margin-top: 30px; }
-  .service-area-item { padding: 28px 24px; }
+  .service-area-item { padding: 24px 20px; gap: 16px; }
+  .service-area-num { font-size: 28px; width: 40px; }
+
+  /* Credentials strip */
   .sp-credentials { padding: 50px 24px; }
+  .sp-credentials-inner { gap: 28px; }
+  .credential-num { font-size: 38px; }
+  .credential-label { font-size: 11px; }
   .credential-divider { width: 100%; height: 1px; }
+
+  /* CTA section */
   .sp-cta-section { padding: 70px 24px; }
+  .sp-cta-inner h2 { font-size: 26px; }
+  .sp-cta-inner p { font-size: 15px; }
+  .sp-cta-inner .btn-primary { width: 100%; justify-content: center; }
+
+  /* Nav dropdown */
   .nav-dropdown { left: 0; transform: none; }
+
+  /* Why supply items */
+  .why-supply-item { padding: 24px 20px; }
+}
+
+/* =============================================
+   480PX — Small phones
+   ============================================= */
+@media (max-width: 480px) {
+  /* Sub-page hero */
+  .sp-hero { padding: 110px 20px 50px; }
+  .sp-hero-title { font-size: 30px !important; }
+  .sp-hero-sub { font-size: 15px; line-height: 1.65; }
+
+  /* Breadcrumb — compact */
+  .sp-breadcrumb { font-size: 12px; gap: 6px; }
+
+  /* Section title */
+  .section-title { font-size: 26px !important; }
+
+  /* Capability cards */
+  .capability-card,
+  .supply-card { padding: 24px 20px; }
+  .capability-title { font-size: 18px; }
+  .supply-title { font-size: 18px; }
+
+  /* Supply card header */
+  .supply-num { font-size: 36px; }
+
+  /* Trio cards */
+  .trio-card-inner { padding: 30px 22px; }
+  .trio-title { font-size: 22px; }
+  .trio-icon-wrap { width: 52px; height: 52px; margin-bottom: 20px; }
+  .trio-icon-wrap svg { width: 26px; height: 26px; }
+  .trio-tags { gap: 6px; margin-bottom: 24px; }
+  .trio-cta { font-size: 13px; }
+
+  /* Credentials strip */
+  .credential-num { font-size: 34px; }
+
+  /* BBEE strip */
+  .bbee-strip { gap: 14px; }
+  .bbee-item { font-size: 11px; }
+
+  /* Service area item — stack on very small */
+  .service-area-item { flex-direction: column; gap: 8px; }
+  .service-area-num { width: auto; font-size: 24px; }
+
+  /* Why supply */
+  .why-supply-item { grid-template-columns: 40px 1fr; gap: 16px; padding: 20px 18px; }
+  .why-supply-icon { width: 40px; height: 40px; }
+  .why-supply-title { font-size: 16px; }
+
+  /* CTA */
+  .sp-cta-inner h2 { font-size: 22px; }
+}
+
+/* =============================================
+   380PX — Very small / older phones
+   ============================================= */
+@media (max-width: 380px) {
+  .sp-hero { padding: 100px 16px 44px; }
+  .sp-hero-title { font-size: 26px !important; }
+  .sp-section { padding: 50px 16px; }
+  .trio-card-inner { padding: 26px 18px; }
+  .trio-title { font-size: 20px; }
+  .capability-card,
+  .supply-card { padding: 20px 16px; }
+  .sp-cta-section { padding: 56px 16px; }
+  .sp-credentials { padding: 44px 16px; }
+  .credential-num { font-size: 30px; }
+  .section-title { font-size: 24px !important; }
+  .tag { font-size: 10px; padding: 5px 10px; }
 }
